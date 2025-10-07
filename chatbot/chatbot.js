@@ -1,12 +1,17 @@
+// chatbot.js
+
 const sendButton = document.getElementById("sendButton");
 const inputBox = document.getElementById("inputBox");
 const outputBox = document.getElementById("outputBox");
 
 sendButton.addEventListener("click", async () => {
   const userInput = inputBox.value;
-  outputBox.innerHTML += `<div class="user">${userInput}</div>`;
+  if (!userInput) return;
 
-  // サーバー側APIを呼ぶ
+  // ユーザーの発言を表示
+  outputBox.innerHTML += `<div class="user-msg">${userInput}</div>`;
+
+  // サーバー側APIに送信
   const response = await fetch("/api/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -16,5 +21,9 @@ sendButton.addEventListener("click", async () => {
   const data = await response.json();
   const reply = data.reply;
 
-  outputBox.innerHTML += `<div class="bot">${reply}</div>`;
+  // ボットの返答を表示
+  outputBox.innerHTML += `<div class="bot-msg">${reply}</div>`;
+
+  // 入力欄をクリア
+  inputBox.value = "";
 });

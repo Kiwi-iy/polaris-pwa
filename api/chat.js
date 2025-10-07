@@ -1,8 +1,7 @@
-// polaris-pwa/api/chat.js
-
 export default async function handler(req, res) {
   try {
     const { message } = await req.json();
+    console.log("ユーザーの入力:", message);
 
     const openaiResponse = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -20,11 +19,17 @@ export default async function handler(req, res) {
     });
 
     const data = await openaiResponse.json();
-    const reply = data.choices[0].message.content;
+    console.log("OpenAIの返答:", data);
 
+    if (!data.choices || !data.choices[0]) {
+      throw new Error("OpenAIから適切な返答がありません");
+    }
+
+    const reply = data.choices[0].message.content;
     res.status(200).json({ reply });
+
   } catch (error) {
-    console.error(error);
+    console.error("APIエラー:", error);
     res.status(500).json({ reply: "エラーが発生しました。" });
   }
 }

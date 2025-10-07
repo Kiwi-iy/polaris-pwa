@@ -1,0 +1,9 @@
+{
+  "name": "Polaris Chatbot",
+  "short_name": "PolarisBot",
+  "start_url": "/chatbot/index.html",
+  "display": "standalone",
+  "background_color": "#f0f4ff",
+  "theme_color": "#007bff",
+  "icons": []
+}
